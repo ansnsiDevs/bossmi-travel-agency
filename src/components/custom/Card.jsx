@@ -1,70 +1,76 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaLaptopCode } from "react-icons/fa";
-import profile from "../../assets/profile.jpeg";
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import profile from '../../assets/profile.jpeg';
 
-const cards = [
-  { profile: "", title: "Dubai — Life-Changing Opportunity! ", content: "Thanks to BOSSMI, I landed a job opportunity in Dubai that changed my life. They handled every detail — from visa processing to flight bookings — with absolute professionalism. I felt guided and supported every step of the way.", name: ""} ,
-   { profile: "", title: "Dubai — Life-Changing Opportunity! ", content: "Thanks to BOSSMI, I landed a job opportunity in Dubai that changed my life. They handled every detail — from visa processing to flight bookings — with absolute professionalism. I felt guided and supported every step of the way.", name: ""} ,
-  { profile: "", title: "Dubai — Life-Changing Opportunity! ", content: "Thanks to BOSSMI, I landed a job opportunity in Dubai that changed my life. They handled every detail — from visa processing to flight bookings — with absolute professionalism. I felt guided and supported every step of the way.", name: ""} ,
-  { profile: "", title: "Dubai — Life-Changing Opportunity! ", content: "Thanks to BOSSMI, I landed a job opportunity in Dubai that changed my life. They handled every detail — from visa processing to flight bookings — with absolute professionalism. I felt guided and supported every step of the way.", name: ""} , { profile: "", title: "Dubai — Life-Changing Opportunity! ", content: "Thanks to BOSSMI, I landed a job opportunity in Dubai that changed my life. They handled every detail — from visa processing to flight bookings — with absolute professionalism. I felt guided and supported every step of the way.", name: ""} ,
-   { title: "Moses Mulumia", content: "I take This opportunity to thank Bossmi for a chance and opportunity they game me to work abraoa there process was easy and fast" },
-];
+export default function CardMarquee() {
+  const cards = useMemo(() => [
+    {
+      title: 'Dubai — Life‑Changing Opportunity!',
+      content: 'Thanks to BOSSMI, I landed a job opportunity in Dubai that completely transformed my life. They managed my visa, flights, accommodation, and even assisted with cultural orientation. Their 24/7 support made a world of difference!'
+    },
+    {
+      title: 'Work Abroad — Seamless Process!',
+      content: 'I never imagined relocating abroad could be so easy. BOSSMI handled all interviews, legal paperwork, and even helped me settle in. Their transparent communication and expert guidance were exceptional from start to finish.'
+    },
+    {
+      title: 'Education in Japan!',
+      content: 'With BOSSMI’s help, I secured a student visa and admission to a top university in Tokyo. They assisted with applications, language prep, and finding accommodation. I’m now thriving in Japan—Arigato BOSSMI!'
+    },
+    {
+      title: 'Grateful Client',
+      content: 'They turned my dream of working in the Gulf into reality. BOSSMI’s honest advice, swift processing, and consistent updates made the whole journey stress-free. Truly the most professional agency I’ve encountered.'
+    },
+    {
+      title: 'Moses Mulumia',
+      content: 'I’m forever grateful to BOSSMI for helping me secure my career abroad. From documentation to pre-departure orientation, everything was smooth and timely. Their team’s dedication is unmatched!'
+    },
+  ], []);
 
-// Card Component
-const Card = ({ title, content, onEnroll }) => (
-  <div className="bg-gray-200 border border-gray-200 rounded-2xl shadow-lg p-6 text-black w-96 mx-4 flex-shrink-0 hover:shadow-2xl hover:bg-gradient-to-br hover:from-blue-50 hover:to-white transition-all duration-300">
-  
-    <h3 className="text-sm font-bold mb-3 text-gray-800 tracking-wide">{title}</h3>
-    <p className="text-sm text-gray-950 font-bold mb-6">"{content}"</p>
-  
-      <img className='w-8 rounded-full' src={profile} alt="" />
-   
-  </div>
-);
-
-// Marquee Component
-const CardMarquee = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleEnrollClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      navigate('/Admissions');
-    }, 2000); // simulate loading delay
-  };
-
-  return (
-    <div className="relative w-screen  py-10 px-4 overflow-hidden">
-      <h2 className="text-3xl font-bold mb-4 text-center text-white tracking-wider">Testimonials</h2>
-      <p className='text-2xl font-bold mx-auto text-center py-6'>What Our Clients say</p>
-      {/* Marquee container */}
-      <div className="relative w-full overflow-hidden group">
-        <div className="flex gap-6 animate-marquee group-hover:paused">
-          {cards.concat(cards).map((card, index) => (
-            <Card
-              key={index}
-              title={card.title}
-              content={card.content}
-              onEnroll={handleEnrollClick}
-            />
-          ))}
-        </div>
+  const Card = ({ title, content }) => (
+    <div className="bg-white bg-opacity-90 border border-gray-200 rounded-3xl shadow-lg p-10 w-[90vw] max-w-2xl mx-auto text-black">
+      <h3 className="text-xl font-semibold mb-4">{title}</h3>
+      <p className="text-base text-gray-700 mb-7">"{content}"</p>
+      <div className="flex items-center gap-3">
+        <img className="w-12 h-12 rounded-full" src={profile} alt="client" />
+        <span className="text-sm text-gray-600">Client Testimonial</span>
       </div>
-
-      {/* Transparent full-screen loading overlay with new spinner */}
-      {loading && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-transparent backdrop-blur-sm flex items-center justify-center z-20">
-          <div className="flex space-x-2">
-            <div className="w-4 h-4 bg-[#00879E] rounded-full animate-bounce"></div>
-            <div className="w-4 h-4 bg-[#00879E] rounded-full animate-bounce [animation-delay:-0.6s]"></div>
-            <div className="w-4 h-4 bg-[#00879E] rounded-full animate-bounce [animation-delay:-0.8s]"></div>
-          </div>
-        </div>
-      )}
     </div>
   );
-};
 
-export default CardMarquee;
+  const total = cards.length;
+  const cardHeight = 350;
+  const gap = 40;
+  const step = cardHeight + gap;
+  const yLoop = -total * step;
+
+  return (
+    <div className="relative w-full py-16 px-4 bg-[#f5f8fa] overflow-hidden">
+      <h2 className="text-3xl font-bold text-center text-[#00879E]">Testimonials</h2>
+      <p className="text-xl text-center mt-2 mb-10 text-gray-800">What Our Clients Say</p>
+
+      <div
+        className="relative h-[500px] w-full flex items-start justify-center overflow-hidden"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)'
+        }}
+      >
+        <motion.div
+          className="flex flex-col items-center"
+          animate={{ y: [0, yLoop] }}
+          transition={{
+            duration: total * 4,
+            ease: 'linear',
+            repeat: Infinity,
+          }}
+        >
+          {[...cards, ...cards].map((c, idx) => (
+            <div key={idx} style={{ marginBottom: `${gap}px` }}>
+              <Card title={c.title} content={c.content} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
